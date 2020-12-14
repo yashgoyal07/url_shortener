@@ -1,2 +1,2 @@
-# url_shortner
-It is a url shortner web app to shorten long urls.
+# url_shortener
+It is a url shortner web application to shorten long urls.
