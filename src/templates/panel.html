@@ -5,59 +5,48 @@ Panel
 {% endblock %}
 
 {% block body %}
+
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
 <div class="col-md-10 offset-md-1 mt-10">
     <div class="card bg-card">
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h4 class="card-title" style="font-weight: 700;">Google Search</h4>
+            <p><a href="#" class="card-text">{{ lolink }}</a></p>
+            <hr/>
+            <a href="#" id="shortlink">http://127.0.0.1:5000/x5ry3u</a>
+            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
+            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Share</button>
+<!--            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Replace</button>-->
+            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
+            <button type="button" class="ml-10 btn btn-outline-warning btn-sm" hidden>Change</button>
+            <a href="#" class="ml-475" id="reglink">Register For More Features</a>
         </div>
     </div>
 </div>
 <br>
-<div class="col-md-10 offset-md-1 mt-10">
-    <div class="card bg-card">
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-10 offset-md-1 mt-10">
-    <div class="card bg-card">
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-10 offset-md-1 mt-10">
-    <div class="card bg-card">
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-10 offset-md-1 mt-10">
-    <div class="card bg-card">
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-10 offset-md-1 mt-10">
-    <div class="card bg-card">
-        <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-</div>
+
+
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+
 {% endblock %}

@@ -1,10 +1,16 @@
-from flask import render_template
+from flask import render_template, request
 from application import app
 
 
 @app.route('/')
 def slink():
     return render_template('slink.html')
+
+
+@app.route('/slinkit', methods=['post'])
+def slinkit():
+    longlink = request.form['longlink']
+    return render_template('panel.html', lolink=longlink)
 
 
 @app.route('/panel')

@@ -10,10 +10,10 @@ Slink
     <p class="text-center">
         Shorten Your Link Using Slink!
     </p>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Enter Your Link...." aria-label="Enter Your Link...."
+    <form action="/slinkit" class="input-group mb-3" method="post">
+        <input name="longlink" type="text" class="form-control" placeholder="Enter Your Link...." aria-label="Enter Your Link...."
                aria-describedby="button-addon2">
-        <button class="btn btn-secondary btn-lg" type="button" id="button-addon2">Slink it!</button>
-    </div>
+        <button class="btn btn-secondary btn-lg" type="submit" id="button-addon2">Slink it!</button>
+    </form>
 </div>
 {% endblock %}
