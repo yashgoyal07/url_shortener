@@ -15,3 +15,10 @@ class MysqlModel(object):
                                              password=self.instance_config.get("password"),
                                              )
         return connection
+
+    def insert_query(self, query, query_params):
+        connection = self.get_connection()
+        cur = connection.cursor()
+        cur.execute(query, query_params)
+        connection.commit()
+        cur.close()

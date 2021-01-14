@@ -16,5 +16,6 @@ class MysqlConfig(object):
         "password": "########"
     }}
 
-
-USER_DATABASE = "########"
+    USER_DATABASE = "url_shortener"
+    CUSTOMERS_TABLE = "customers"
+    LINKS_TABLE = "links"

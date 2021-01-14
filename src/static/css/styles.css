@@ -68,18 +68,18 @@ body{
     background-color: rgba(0,0,0,0.5);
 }
 
-.inputform {
+.input_form {
     background-color: rgba(0,0,0,0.1);
     border: none;
     border-bottom: 2px solid white;
 }
 
-.logininfo{
+.login_info{
      margin-top:17%;
      transform: translateY(-17%);
 }
 
-.signupinfo{
+.signup_info{
      margin-top:3%;
      transform: translateY(-3%);
 }
