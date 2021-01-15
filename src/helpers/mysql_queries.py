@@ -1,3 +1,6 @@
 from configs.mysql_config import *
 
-create_short_link = f"""INSERT INTO {MysqlConfig.USER_DATABASE}.{MysqlConfig.SLINKS_TABLE} (slink, llink, userid) VALUES (%s, %s, %s)"""
+create_customer = f"""INSERT INTO {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_TABLE} (customer_id, name, email, mobile, password) VALUES (%s, %s, %s, %s, %s)"""
+create_user = f"""INSERT INTO {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_TABLE} (customer_id) VALUES (%s)"""
+find_customer = f"""SELECT * FROM {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_TABLE} WHERE customer_id = %s"""
+update_customer = f"""UPDATE {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_TABLE} SET name = %s, email = %s, mobile = %s, password = %s WHERE cus_id = %s"""

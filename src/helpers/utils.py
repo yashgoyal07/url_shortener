@@ -1,5 +1,6 @@
 import os
 import random
+from flask import session
 
 
 def get_environment():
@@ -12,3 +13,10 @@ def short_link_generator():
     for i in range(6):
         result += random.choice(char_list)
     return result
+
+
+def is_customer():
+    if 'cus_id' in session:
+        return True
+    else:
+        return False
