@@ -7,7 +7,7 @@ def get_environment():
     return os.environ.get("my_env", "local")
 
 
-def short_link_generator():
+def short_code_generator():
     result = ""
     char_list = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     for i in range(6):

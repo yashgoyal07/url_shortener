@@ -1,8 +1,9 @@
 import uuid
-from flask import render_template, request, session
+import logging
+from flask import render_template, request, session, flash, redirect, url_for
 from application import app
-from helpers.utils import is_customer, short_link_generator
-# from controllers.links_controller import LinksController
+from helpers.utils import is_customer, short_code_generator
+from controllers.links_controller import LinksController
 from controllers.customers_controller import CustomersController
 
 
@@ -11,26 +12,33 @@ app.secret_key = b'\xce\xdd(B\xdd\xf1\x19\x04\x8c\xf0 BV\x93e\x8c'
 
 @app.route('/')
 def slink():
-    if not is_customer():
-        cus_id = uuid.uuid4().int
-        result = CustomersController().create_customer(cus_id=cus_id)
-        if result:
+    try:
+        if not is_customer():
+            cus_id = uuid.uuid4().int
+            CustomersController().create_user(cus_id=cus_id)
             session['cus_id'] = cus_id
-            return "you become guest user"
-        else:
-            return "Another User Existed"
+    except Exception as err:
+        flash('something went wrong.try again', 'danger')
+        logging.error('cookies not set due to ')
+
+
     return render_template('slink.html')
 
 
-# @app.route('/slink_it', methods=['post'])
-# def slink_it():
-#     if is_customer():
-#         long_link = request.form['long_link']
-#         if long_link:
-#             slink = short_link_generator()
-#
-#
-#
+@app.route('/slink_it', methods=['post'])
+def slink_it():
+    if is_customer():
+        long_link = request.form['long_link']
+        if long_link:
+            short_code = short_code_generator()
+            result = LinksController().create_slink(slink_name="lalu", slink=short_code, long_link=long_link, customerid=session['cus_id'])
+            if result:
+                flash('Slink Created', 'success')
+            else:
+                flash('Slink Not Created', 'danger')
+                logging.error('slink creation & db error')
+
+    return render_template('slink.html')
 
 
 @app.route('/panel')

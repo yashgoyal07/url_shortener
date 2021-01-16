@@ -17,15 +17,31 @@ class MysqlModel(object):
                                              )
         return connection
 
-    def query(self, query, query_params):
-        connection = self.get_connection()
-        cur = connection.cursor()
-        cur.execute(query, query_params)
+    def dml_query(self, query, query_params):
+        connection = None
         try:
-            query_result = cur.fetchall()
+            connection = self.get_connection()
+            cur = connection.cursor(dictionary=True)
+            cur.execute(query, query_params)
+            return cur.rowcount
         except Exception as err:
-            logging.error(f"fail due to {err}")
-            query_result = "No Response"
-        connection.commit()
-        cur.close()
-        return query_result
+            logging.error(f'query error due to {err}')
+            raise
+        finally:
+            if connection:
+                connection.close()
+
+    def search_query(self, query, query_params):
+        connection = None
+        try:
+            connection = self.get_connection()
+            cur = connection.cursor(dictionary=True)
+            cur.execute(query, query_params)
+            result = cur.fetchall()
+            return result
+        except Exception as err:
+            logging.error(f'query error due to {err}')
+            raise
+        finally:
+            if connection:
+                connection.close()
