@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Login
+Sign Up
 {% endblock %}
 
 {% block body %}
@@ -16,15 +16,15 @@ Login
         <div class="card-body">
 
             <!-- Sign Up Form -->
-            <form action="/signup" target="_blank" method="post" style="text-align: center">
+            <form action="/signup" method="post" style="text-align: center">
                 <label>Name:</label><br>
                 <input type="text" class="form-control input_form" name="name"><br>
                 <label>Email:</label><br>
-                <input type="email" class="form-control input_form" name="email"><br>
+                <input type="email" class="form-control input_form" name="email" required><br>
                 <label>Mobile:</label><br>
                 <input type="tel" class="form-control input_form" name="mobile"><br>
                 <label>Password:</label><br>
-                <input type="password" class="form-control input_form" name="password"><br>
+                <input type="password" class="form-control input_form" name="password" required><br>
                 <input type="submit" class="btn btn-outline-light btn-block" value="Sign Up">
             </form>
         </div>

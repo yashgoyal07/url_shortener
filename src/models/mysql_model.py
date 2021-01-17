@@ -23,15 +23,19 @@ class MysqlModel(object):
             connection = self.get_connection()
             cur = connection.cursor(dictionary=True)
             cur.execute(query, query_params)
-            return cur.rowcount
+            connection.commit()
+            result = cur.rowcount
+            return result
+        except mysql.connector.Error as e:
+            raise Exception(f'mysql error occurred due to {e.msg}',e.errno)
         except Exception as err:
-            logging.error(f'query error due to {err}')
+            logging.error(f'error from dml_query occurred due to {err}')
             raise
         finally:
             if connection:
                 connection.close()
 
-    def search_query(self, query, query_params):
+    def dql_query(self, query, query_params):
         connection = None
         try:
             connection = self.get_connection()
@@ -39,8 +43,10 @@ class MysqlModel(object):
             cur.execute(query, query_params)
             result = cur.fetchall()
             return result
+        except mysql.connector.Error as e:
+            raise Exception(f'mysql error occurred due to {e.msg}', e.errno)
         except Exception as err:
-            logging.error(f'query error due to {err}')
+            logging.error(f'error from dql_query occurred due to {err}')
             raise
         finally:
             if connection:

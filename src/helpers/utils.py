@@ -15,8 +15,14 @@ def short_code_generator():
     return result
 
 
-def is_customer():
+def is_visitor():
     if 'cus_id' in session:
+        return True
+    else:
+        return False
+
+def is_customer():
+    if 'cus_id' and 'Registered' in session:
         return True
     else:
         return False

@@ -1,5 +1,5 @@
 from models.mysql_model import MysqlModel
-from helpers.mysql_queries import create_customer, find_customer, update_customer, create_user
+from helpers.mysql_queries import create_customer, update_customer, create_user, find_customer
 import logging
 
 
@@ -7,27 +7,31 @@ class CustomersController(object):
     def __init__(self):
         self.mysql_model_obj = MysqlModel()
 
-    # def find_customer(self, cus_id):
-    #     result = self.mysql_model_obj.query(query=find_customer, query_params=(cus_id,))
-    #     return result
-
-    # def create_customer(self, cus_id, name=None, email=None, mobile=None, password=None):
-    #     response = CustomersController().find_customer(cus_id=cus_id)
-    #     if not response:
-    #         if name is None and email is None and mobile is None and password is None:
-    #             result = self.mysql_model_obj.query(query=create_user, query_params=(cus_id,))
-    #         else:
-    #             result = self.mysql_model_obj.query(query=create_customer, query_params=(cus_id, name, email, mobile, password))
-    #     else:
-    #         if name is None and email is None and mobile is None and password is None:
-    #             result = "Already Existed"
-    #         else:
-    #             result = self.mysql_model_obj.query(query=update_customer, query_params=(name, email, mobile, password, cus_id))
-    #     return result
+    def find_customer(self, email, password):
+        try:
+            result = self.mysql_model_obj.dql_query(query=find_customer, query_params=(email, password))
+            return result
+        except Exception as err:
+            logging.error(f'error from find_customer occurred due to {err}')
+            raise
 
     def create_user(self, cus_id):
         try:
             self.mysql_model_obj.dml_query(query=create_user, query_params=(cus_id,))
         except Exception as err:
+            logging.error(f'error from create_user occurred due to {err}')
+            raise
 
-            raise Exception("")
+    def create_customer(self, cus_id, name, email, mobile, password):
+        try:
+            self.mysql_model_obj.dml_query(query=create_customer, query_params=(cus_id, name, email, mobile, password))
+        except Exception as err:
+            logging.error(f'error from create_customer occurred due to {err}')
+            raise
+
+    def update_customer(self, name, email, mobile, password, cus_id):
+        try:
+            self.mysql_model_obj.dml_query(query=update_customer, query_params=(name, email, mobile, password, cus_id))
+        except Exception as err:
+            logging.error(f'error from update_customer occurred due to {err}')
+            raise
