@@ -54,12 +54,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/panel">PANEL</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">LOGIN</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/signup">SIGNUP</a>
-                    </li>
+                    {% block login %}
+                    {% endblock %}
                 </ul>
             </nav>
         </div>

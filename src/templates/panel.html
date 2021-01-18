@@ -4,28 +4,47 @@
 Panel
 {% endblock %}
 
+{% block login %}
+{% if cus_status %}
+<li class="nav-item">
+    <a class="nav-link" href="/logout">LOG OUT</a>
+</li>
+{% else %}
+<li class="nav-item">
+    <a class="nav-link" href="/login">LOGIN</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/signup">SIGNUP</a>
+</li>
+{% endif %}
+{% endblock %}
+
 {% block body %}
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
-<div class="col-md-10 offset-md-1 mt-10">
-    <div class="card bg-card">
-        <div class="card-body">
-            <h4 class="card-title" style="font-weight: 700;">Google Search</h4>
-            <p><a href="#" class="card-text">{{ long_link }}</a></p>
-            <hr/>
-            <a href="#" id="shortlink">http://127.0.0.1:5000/x5ry3u</a>
-            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
-            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Share</button>
-<!--            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Replace</button>-->
-            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
-            <button type="button" class="ml-10 btn btn-outline-warning btn-sm" hidden>Change</button>
-            <a href="#" class="ml-475" id="reglink">Register For More Features</a>
+{% if slink_data %}
+    {% for card in slink_data %}
+    <div class="col-md-10 offset-md-1 mt-10">
+        <div class="card bg-card">
+            <div class="card-body">
+                <p class="card-text">{{ card.get('created') }}</p>
+                <p><a href="{{ card.get('long_link') }}" class="card-text">{{ card.get('long_link') }}</a></p>
+                <hr/>
+                <a href="{{ card.get('slink') }}" id="shortlink">http://127.0.0.1:5000/{{ card.get('slink') }}</a>
+                <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Copy</button>
+                <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Share</button>
+    <!--            <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Replace</button>-->
+                <button type="button" class="ml-10 btn btn-outline-warning btn-sm">Delete</button>
+                <button type="button" class="ml-10 btn btn-outline-warning btn-sm" hidden>Change</button>
+                <a href="#" class="ml-475" id="reglink">Register For More Features</a>
+            </div>
         </div>
     </div>
-</div>
-<br>
-
+    <br>
+    {% endfor %}
+{% else %}
+{% endif %}
 
 <script>
 //Get the button
