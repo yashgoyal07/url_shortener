@@ -1,3 +1,4 @@
+import time
 import uuid
 import logging
 from flask import render_template, request, session, flash, redirect, url_for
@@ -13,13 +14,27 @@ app.secret_key = b'\xce\xdd(B\xdd\xf1\x19\x04\x8c\xf0 BV\x93e\x8c'
 @app.route('/<slink_id>')
 def redirection(slink_id):
     try:
-        result = LinksController().find_long_link(slink_id)
-        if not result:
-            raise ValueError
-        return redirect(result[0].get("long_link"))
+        start_time = time.time()
+        result = LinksController().get_long_link(slink_id=slink_id)
+        time_taken = (time.time() - start_time)*1000
+        print(f'time taken by cache {time_taken} ms')
+
+        if result:
+            return redirect(result)
+
+        start = time.time()
+        long_link = LinksController().find_long_link(slink_id)
+        time_ = (time.time() - start)*1000
+        print(f'time taken by db {time_}')
+
+        if not long_link:
+            raise Exception("link not found")
+
+        LinksController().set_long_link(slink_id=slink_id, long_link=long_link)
+        return redirect(long_link)
     except Exception as err:
-        print(err)
-        return "Link not exist or expired"
+        logging.error(f'error from redirection occurred due to {err}')
+        return "Link Expired or Not Exist"
 
 
 @app.route('/')
@@ -34,7 +49,7 @@ def slink():
             session['cus_id'] = cus_id
     except Exception as err:
         flash('Something Went Wrong. Try Again', 'danger')
-        logging.error('error from slink occurred due to {err}')
+        logging.error(f'error from slink occurred due to {err}')
     return render_template('slink.html')
 
 
@@ -46,7 +61,8 @@ def slink_it():
             try:
                 short_code = short_code_generator()
                 LinksController().create_slink(slink=short_code, long_link=long_link,
-                                                        customer_id=session['cus_id'])
+                                               customer_id=session['cus_id'])
+                LinksController().set_long_link(slink_id=short_code, long_link=long_link)
                 flash('Slink Created', 'success')
                 return redirect(url_for('panel'))
             except Exception as err:
