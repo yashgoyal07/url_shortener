@@ -75,7 +75,7 @@ def slink_it():
 
 @app.route('/panel')
 def panel():
-    if is_visitor() or is_customer():
+    if is_customer():
         try:
             customer_id = session['cus_id']
             result = LinksController().show_slink(customer_id=customer_id)
@@ -86,7 +86,9 @@ def panel():
         except Exception as err:
             flash('Something Went Wrong. Try Again', 'danger')
             logging.error(f'error from panel occurred due to {err}')
-    return redirect(url_for('slink'))
+    if is_visitor():
+        flash('No Slink Created', 'warning')
+        return redirect(url_for('slink'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -141,11 +143,7 @@ def signup():
                 password = customer.get('password')
 
                 # mobile no. consists only digits
-                if not mobile.isnumeric():
-                    raise ValueError
-
-                # email and password both are mandatory
-                if not email or not password:
+                if not all((mobile.isnumeric(), email, password)):
                     raise ValueError
 
                 CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])

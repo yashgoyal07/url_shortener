@@ -21,22 +21,24 @@ body{
 }
 
 .banner .navbar-brand{
-    color: #fff;
+    color: #aaa;
     font-size: 1.8em;
+    font-weight: 700;
+    margin-left: 8%;
+}
+
+.banner .navl{
+    margin-right: 10%;
+}
+
+.banner .navl li .nav-link{
+    color: #aaa;
+    font-size: 1.2em;
     font-weight: 700;
     margin-left: 10%;
 }
 
-.banner .nav{
-    margin-right: 10%;
-}
-
-.banner .nav li a{
-    color: #aaa;
-    font-size: 1.2em;
-}
-
-.banner .nav li a:hover{
+.banner .navl li a:hover{
     color: #fff;
 }
 
@@ -72,6 +74,17 @@ body{
     background-color: rgba(0,0,0,0.1);
     border: none;
     border-bottom: 2px solid white;
+    letter-spacing: 1px;
+    color: #aaa;
+}
+
+.input_form:focus {
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    border-bottom: 2px solid white;
+    box-shadow: none;
+    letter-spacing: 1px;
+    color: #aaa;
 }
 
 .login_info{
@@ -139,4 +152,18 @@ body{
 
 .ml-475{
     margin-left: 475px;
+}
+
+.login-controller{
+    position: absolute;
+    top: 15vh;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.signup-controller{
+    position: absolute;
+    top: 15vh;
+    padding: 20px;
+    border-radius: 10px;
 }
