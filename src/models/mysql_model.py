@@ -27,7 +27,7 @@ class MysqlModel(object):
             result = cur.rowcount
             return result
         except mysql.connector.Error as e:
-            raise Exception(f'mysql error occurred due to {e.msg}',e.errno)
+            raise Exception(f'mysql error occurred due to {e.msg}', e.errno)
         except Exception as err:
             logging.error(f'error from dml_query occurred due to {err}')
             raise

@@ -1,5 +1,5 @@
 from controllers.mysql_controller import MysqlController
-from helpers.mysql_queries import create_customer, update_customer, create_user, find_customer
+from helpers.mysql_queries import create_customer, update_customer, create_user, find_customer, check_customer
 import logging
 
 
@@ -34,4 +34,12 @@ class CustomersController(object):
             self.mysql_controller.dml_query(query=update_customer, query_params=(name, email, mobile, password, cus_id))
         except Exception as err:
             logging.error(f'error from update_customer occurred due to {err}')
+            raise
+
+    def check_customer(self, email):
+        try:
+            result = self.mysql_controller.dql_query(query=check_customer, query_params=(email,))
+            return result
+        except Exception as err:
+            logging.error(f'error from find_customer occurred due to {err}')
             raise

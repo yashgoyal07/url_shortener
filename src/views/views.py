@@ -75,7 +75,7 @@ def slink_it():
 
 @app.route('/panel')
 def panel():
-    if is_customer():
+    if is_customer() or is_visitor():
         try:
             customer_id = session['cus_id']
             result = LinksController().show_slink(customer_id=customer_id)
@@ -86,9 +86,7 @@ def panel():
         except Exception as err:
             flash('Something Went Wrong. Try Again', 'danger')
             logging.error(f'error from panel occurred due to {err}')
-    if is_visitor():
-        flash('No Slink Created', 'warning')
-        return redirect(url_for('slink'))
+    return redirect(url_for('slink'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -134,51 +132,34 @@ def signup():
     if is_customer():
         return redirect('panel')
     if request.method == 'POST':
-        if is_visitor():
-            try:
-                customer = request.form
-                name = customer.get('name')
-                email = customer.get('email')
-                mobile = customer.get('mobile')
-                password = customer.get('password')
+        try:
+            customer = request.form
+            name = customer.get('name')
+            email = customer.get('email')
+            mobile = customer.get('mobile')
+            password = customer.get('password')
 
-                # mobile no. consists only digits
-                if not all((mobile.isnumeric(), email, password)):
-                    raise ValueError
+            # mobile no. consists only digits
+            if not all((mobile.isnumeric(), email, password)):
+                raise ValueError
 
-                CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
-                session['Registered'] = 'Y'
-                flash('You are Successfully Updated', 'success')
-                return redirect(url_for('panel'))
-            except Exception as err:
-                flash('Something Went Wrong. Try Again', 'danger')
-                logging.error(f'error from signup occurred due to {err}')
-        else:
-            try:
-                customer = request.form
-                name = customer.get('name')
-                email = customer.get('email')
-                mobile = customer.get('mobile')
-                password = customer.get('password')
-
-                # mobile no. consists only digits
-                if not mobile.isnumeric():
-                    raise ValueError
-
-                # email and password both are mandatory
-                if not email or not password:
-                    raise ValueError
-
-                cus_id = uuid.uuid4().hex
-                CustomersController().create_customer(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
-                session['cus_id'] = cus_id
-                session['Registered'] = 'Y'
+            result = CustomersController().check_customer(email=email.lower())
+            if not result:
+                if is_visitor():
+                    CustomersController().update_customer(name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password, cus_id=session['cus_id'])
+                    session['Registered'] = 'Y'
+                else:
+                    cus_id = uuid.uuid4().hex
+                    CustomersController().create_customer(cus_id=cus_id, name=name.lower(), email=email.lower(), mobile=mobile.lower(), password=password.lower())
+                    session['cus_id'] = cus_id
+                    session['Registered'] = 'Y'
                 flash('You are Successfully Registered', 'success')
                 return redirect(url_for('panel'))
-            except Exception as err:
-                flash('Something Went Wrong. Try Again', 'danger')
-                logging.error(f'error from signup occurred due to {err}')
-
+            else:
+                flash('This email id is already exist.', 'danger')
+        except Exception as err:
+            flash('Something Went Wrong. Try Again', 'danger')
+            logging.error(f'error from signup occurred due to {err}')
     return render_template('signup.html')
 
 

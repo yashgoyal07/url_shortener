@@ -21,6 +21,7 @@ def is_visitor():
     else:
         return False
 
+
 def is_customer():
     if 'cus_id' and 'Registered' in session:
         return True

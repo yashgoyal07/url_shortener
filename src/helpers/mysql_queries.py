@@ -7,3 +7,4 @@ update_customer = f"""UPDATE {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_
 create_slink = f"""INSERT INTO {MysqlConfig.USER_DATABASE}.{MysqlConfig.LINKS_TABLE} (slink, long_link, customer_id) VALUES (%s, %s, %s)"""
 show_slink = f"""SELECT * FROM {MysqlConfig.USER_DATABASE}.{MysqlConfig.LINKS_TABLE} WHERE customer_id = %s"""
 find_long_link = f"""SELECT long_link FROM {MysqlConfig.USER_DATABASE}.{MysqlConfig.LINKS_TABLE} WHERE slink = %s"""
+check_customer = f"""SELECT customer_id FROM {MysqlConfig.USER_DATABASE}.{MysqlConfig.CUSTOMERS_TABLE} WHERE email = %s"""
